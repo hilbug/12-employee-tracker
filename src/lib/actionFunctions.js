@@ -27,19 +27,24 @@ const start = () => {
                     case actionsList.actionsList[0]:
                         viewAllEmployeesQ();
                         break;
-                    
+
                     // View all Departments
                     case actionsList.actionsList[1]:
                         viewAllDeptsQ();
                         break;
-                    
+
                     // View all roles
                     case actionsList.actionsList[2]:
                         viewAllRolesQ();
                         break;
+
+                    // View all roles
+                    case actionsList.actionsList[3]:
+                        addDepartmentQ();
+                        break;
                 }
             }
-            
+
         });
 }
 
@@ -70,8 +75,34 @@ const viewAllRolesQ = () => {
     });
 }
 
+// Add department
+const addDepartmentQ = () => {
+    inquirer
+        .prompt([
+            {
+                name: "deptName",
+                type: "input",
+                message: "Please enter a NAME for the new department.",
+            }
+        ])
+        .then((answer) => {
+            connection.query(
+                queries.addDepartment,
+                {
+                    name: answer.deptName
+                },
+                (err) => {
+                    if (err) throw err;
+                    console.log(`The new department ${answer.deptName} was added successfully!`);
+                    start();
+                });
+        })
+
+}
+
+// Exit the program
 const exitProgram = () => {
-    console.log("Hope you enjoyed using the Employer Tracker app!");
+    console.log("Hope you enjoyed using the Employee Tracker app!");
     return connection.end();
 }
 
