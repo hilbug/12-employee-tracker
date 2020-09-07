@@ -1,7 +1,7 @@
 // db connection
 const connection = require('../config/config');
 // query variables
-const queries = require('../config/queries');
+const queries = require('./queries');
 // prettify output
 const consoleTable = require('console.table');
 // inquirer
@@ -9,6 +9,7 @@ const inquirer = require("inquirer");
 // require actionslist
 const actionsList = require('./actionslist');
 
+// function to initialize the app
 const start = () => {
     inquirer
         .prompt({
