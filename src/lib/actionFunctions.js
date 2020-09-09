@@ -60,6 +60,11 @@ const start = () => {
                     case actionsList.actionsList[6]:
                         updateEmployeeRole();
                         break;
+                    
+                    // Update an employee's manager
+                    case actionsList.actionsList[7]:
+                        updateEmployeeMgr();
+                        break;
                 }
             }
 
@@ -173,7 +178,6 @@ const addEmployeeQ = async () => {
                             return choiceArray;
                         },
                         message: "Select a manager for the new employee."
-
                     }
                 ])
                 .then((answer) => {
@@ -334,7 +338,7 @@ const updateEmployeeRole = async () => {
                             return choiceArray;
                         },
                         message: "Select a new role for the employee."
-                    },
+                    }
                 ])
                 .then((answer) => {                    
                     connection.query(
@@ -360,6 +364,76 @@ const updateEmployeeRole = async () => {
         //await functions
         const emps = await getEmployees();
         const roles = await getRoles();
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Update an employee role
+const updateEmployeeMgr = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "empID",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            emps.forEach((emp) => {
+                                const empObj = {
+                                    name: `${emp.firstname} ${emp.lastname}`,
+                                    value: emp.id
+                                }
+                                choiceArray.push(empObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Please select an employee whose manager you wish to update.",
+                    },
+                    {
+                        name: "empManagerId",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            managers.forEach((mgr) => {
+                                const mgrObj = {
+                                    name: mgr.name,
+                                    value: mgr.id
+                                }
+                                choiceArray.push(mgrObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Select a new manager for the employee."
+                    }
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.updateEmployee,
+                        [
+                            {
+                                // Goes in SET - field being updated with new value
+                                manager_id: answer.empManagerId
+                            },
+                            {
+                                // Goes in WHERE - employee getting new manager
+                                id: answer.empID
+                            }
+                        ],
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The employee's manager was updated successfully!`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const emps = await getEmployees();
+        const managers = await getManagers();
         await promptUser();
 
     } catch (err) {

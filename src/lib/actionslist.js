@@ -8,6 +8,7 @@ const actionsList = [
     'Add a department',
     'Add a role',
     'Update an employee\'s role',
+    'Update an employee\'s manager',
     'Exit'
 ];
 
