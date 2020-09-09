@@ -65,6 +65,11 @@ const start = () => {
                     case actionsList.actionsList[7]:
                         updateEmployeeMgr();
                         break;
+                    
+                    // View employees by manager
+                    case actionsList.actionsList[8]:
+                        viewEmployeesByManagerQ();
+                        break;
                 }
             }
 
@@ -116,6 +121,17 @@ const viewAllDeptsQ = async () => {
 const viewAllRolesQ = async () => {
     try {
         const rows = await getRoles();
+        console.table(rows);
+        start();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// View employess by manager
+const viewEmployeesByManagerQ = async () => {
+    try {
+        const rows = await query(queries.viewEmployeesByManager);
         console.table(rows);
         start();
     } catch (err) {

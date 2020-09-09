@@ -1,14 +1,15 @@
 // store array of possible actions
 
 const actionsList = [
-    'View All Employees',
-    'View All Departments',
-    'View All Roles',
+    'View all employees',
+    'View all departments',
+    'View all roles',
     'Add an employee',
     'Add a department',
     'Add a role',
     'Update an employee\'s role',
     'Update an employee\'s manager',
+    'View Employees by Manager',
     'Exit'
 ];
 

@@ -9,7 +9,8 @@ const queries = {
     addEmployee: fs.readFileSync(path.join(__dirname, '../sql/addEmployee.sql')).toString(),
     addDepartment: fs.readFileSync(path.join(__dirname, '../sql/addDepartment.sql')).toString(),
     addRole: fs.readFileSync(path.join(__dirname, '../sql/addRole.sql')).toString(),
-    updateEmployee: fs.readFileSync(path.join(__dirname, '../sql/updateEmployee.sql')).toString()
+    updateEmployee: fs.readFileSync(path.join(__dirname, '../sql/updateEmployee.sql')).toString(),
+    viewEmployeesByManager: fs.readFileSync(path.join(__dirname, '../sql/viewEmployeesByManager.sql')).toString()
 }
 
 
