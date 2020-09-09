@@ -50,6 +50,11 @@ const start = () => {
                     case actionsList.actionsList[4]:
                         addDepartmentQ();
                         break;
+                    
+                    // Add a role
+                    case actionsList.actionsList[5]:
+                        addRole();
+                        break;
                 }
             }
 
@@ -230,6 +235,62 @@ const addDepartmentQ = async () => {
 }
 
 // Add a role function
+const addRole = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "roleTitle",
+                        type: "input",
+                        message: "Please enter a NAME for the new role.",
+                    },
+                    {
+                        name: "roleSalary",
+                        type: "input",
+                        message: "Please enter a SALARY for the new role. E.G 10000.00",
+                    },
+                    {
+                        name: "roleDeptId",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            depts.forEach((dept) => {
+                                const deptObj = {
+                                    name: dept.department_name,
+                                    value: dept.id
+                                }
+                                choiceArray.push(deptObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Select a DEPARTMENT for the new role."
+
+                    }
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.addRole,
+                        {
+                            title: answer.roleTitle,
+                            salary: answer.roleSalary,
+                            department_id: answer.roleDeptId
+                        },
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The new role ${answer.roleTitle} was added successfully!`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const depts = await getDepartments();
+        await promptUser();
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 // Exit the program
 const exitProgram = () => {

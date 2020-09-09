@@ -6,6 +6,7 @@ const actionsList = [
     'View All Roles',
     'Add an employee',
     'Add a department',
+    'Add a role',
     'Exit'
 ];
 
