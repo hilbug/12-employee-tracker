@@ -55,6 +55,11 @@ const start = () => {
                     case actionsList.actionsList[5]:
                         addRole();
                         break;
+                    
+                    // Update an employee's role
+                    case actionsList.actionsList[6]:
+                        updateEmployeeRole();
+                        break;
                 }
             }
 
@@ -152,7 +157,6 @@ const addEmployeeQ = async () => {
                             return choiceArray;
                         },
                         message: "Select a role for the new employee."
-
                     },
                     {
                         name: "empManagerId",
@@ -292,7 +296,79 @@ const addRole = async () => {
     }
 }
 
-// Exit the program
+// UPDATE FUNCTIONS
+// Update an employee role
+const updateEmployeeRole = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "empID",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            emps.forEach((emp) => {
+                                const empObj = {
+                                    name: `${emp.firstname} ${emp.lastname}`,
+                                    value: emp.id
+                                }
+                                choiceArray.push(empObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Please select an employee whose role you wish to update.",
+                    },
+                    {
+                        name: "empRoleId",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            roles.forEach((role) => {
+                                const roleObj = {
+                                    name: role.title,
+                                    value: role.id
+                                }
+                                choiceArray.push(roleObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Select a new role for the employee."
+                    },
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.updateEmployee,
+                        [
+                            {
+                                // Goes in SET - field being updated with new value
+                                role_id: answer.empRoleId
+                            },
+                            {
+                                // Goes in WHERE - employee getting new role
+                                id: answer.empID
+                            }
+                        ],
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The employee's role was updated successfully!`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const emps = await getEmployees();
+        const roles = await getRoles();
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+// EXIT the program
 const exitProgram = () => {
     console.log("Hope you enjoyed using the Employee Tracker app!");
     return connection.end();
