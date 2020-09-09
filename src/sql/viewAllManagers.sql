@@ -13,3 +13,5 @@ FROM
     LEFT JOIN department dept ON role.department_id = dept.id)
 WHERE
     emp.manageryn = 'Y'
+ORDER BY
+	name

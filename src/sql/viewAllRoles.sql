@@ -6,3 +6,5 @@ SELECT
 FROM
     role r
     LEFT JOIN department dept ON r.department_id = dept.id
+ORDER BY
+    r.title
