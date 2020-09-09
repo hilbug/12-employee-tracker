@@ -57,15 +57,15 @@ const start = () => {
 }
 
 // GET FUNCTIONS
-// get roles for inquirer choices
+// roles
 const getRoles = () => {
     return query(queries.viewAllRoles);
 }
-
+// employees
 const getEmployees = () => {
     return query(queries.viewAllEmployees);
 }
-
+// departments
 const getDepartments = () => {
     return query(queries.viewAllDepartments);
 }
@@ -109,7 +109,7 @@ const viewAllRolesQ = async () => {
 }
 
 // ADD FUNCTIONS
-// Add an employee
+// Add an employee function
 const addEmployeeQ = async () => {
     try {
         // define questions first
@@ -168,15 +168,6 @@ const addEmployeeQ = async () => {
                     }
                 ])
                 .then((answer) => {
-                    console.log(answer.empFirstName);
-                    console.log(answer.empLastName);
-                    console.log(answer.empRoleId);
-                    console.log(answer.empManagerYN);
-                    console.log(answer.empManagerId);
-                    //console.log("this is undefined " + chosenRole);
-                    //console.log(getChosenRoleId(answer.empRole));
-                    //start comment below
-
                     connection.query(
                         queries.addEmployee,
                         {
@@ -196,41 +187,49 @@ const addEmployeeQ = async () => {
 
         // await functions 
         const roles = await getRoles();
-        //console.log(roles);
         const managers = await getManagers();
-        //console.log(managers);
         await promptUser();
 
     } catch (err) {
         console.log(err);
     }
-
 }
 
-// Add department
-const addDepartmentQ = () => {
-    inquirer
-        .prompt([
-            {
-                name: "deptName",
-                type: "input",
-                message: "Please enter a NAME for the new department.",
-            }
-        ])
-        .then((answer) => {
-            connection.query(
-                queries.addDepartment,
-                {
-                    name: answer.deptName
-                },
-                (err) => {
-                    if (err) throw err;
-                    console.log(`The new department ${answer.deptName} was added successfully!`);
-                    start();
+// Add a department function
+const addDepartmentQ = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "deptName",
+                        type: "input",
+                        message: "Please enter a NAME for the new department.",
+                    }
+                ])
+                .then((answer) => {
+                    connection.query(
+                        queries.addDepartment,
+                        {
+                            name: answer.deptName
+                        },
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The new department ${answer.deptName} was added successfully!`); 
+                            start();                          
+                        });
                 });
-        })
+        }
 
+        //await functions
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
 }
+
+// Add a role function
 
 // Exit the program
 const exitProgram = () => {
@@ -238,6 +237,4 @@ const exitProgram = () => {
     return connection.end();
 }
 
-module.exports = {
-    start
-}
+module.exports = { start }
