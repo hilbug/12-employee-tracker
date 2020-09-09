@@ -6,6 +6,7 @@ const queries = {
     viewAllDepartments: fs.readFileSync(path.join(__dirname, '../sql/viewAllDepartments.sql')).toString(),
     viewAllRoles: fs.readFileSync(path.join(__dirname, '../sql/viewAllRoles.sql')).toString(),
     viewAllManagers: fs.readFileSync(path.join(__dirname, '../sql/viewAllManagers.sql')).toString(),
+    addEmployee: fs.readFileSync(path.join(__dirname, '../sql/addEmployee.sql')).toString(),
     addDepartment: fs.readFileSync(path.join(__dirname, '../sql/addDepartment.sql')).toString()
 }
 
