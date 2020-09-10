@@ -1,6 +1,6 @@
 SELECT
-    dept.id AS 'Department ID',
-    dept.name AS 'Department Name'
+    dept.id,
+    dept.name department_name
 FROM
     department dept
 ORDER BY

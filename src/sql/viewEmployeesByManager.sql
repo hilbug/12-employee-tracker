@@ -1,9 +1,9 @@
 SELECT
-	CONCAT(manager.firstname, " ", manager.lastname) AS 'Manager Name',
+	CONCAT(manager.firstname, " ", manager.lastname) manager_name,
     GROUP_CONCAT(
         emp.firstname, " ", emp.lastname
         SEPARATOR ', '
-    ) AS 'Manager Employees'
+    ) employees
 	
 FROM
     ((employee emp

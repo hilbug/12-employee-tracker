@@ -1,11 +1,11 @@
 SELECT
-	emp.id AS 'Employee ID',
-	emp.firstname AS 'Employee First Name',
-	emp.lastname AS 'Employee Last Name',
-	role.title AS 'Employee Title',
-	dept.name AS 'Department Name',
-	concat('$', format(role.salary, 2)) AS 'Employee Salary',
-	concat(manager.firstname, " ", manager.lastname) As 'Manager Name'
+	emp.id,
+	emp.firstname,
+	emp.lastname,
+	role.title,
+	dept.name department,
+	role.salary,
+	concat(manager.firstname, " ", manager.lastname) manager_name
 	
 FROM
     ((employee emp
