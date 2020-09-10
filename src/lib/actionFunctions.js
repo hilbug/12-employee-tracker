@@ -53,22 +53,27 @@ const start = () => {
                     
                     // Add a role
                     case actionsList.actionsList[5]:
-                        addRole();
+                        addRoleQ();
                         break;
                     
                     // Update an employee's role
                     case actionsList.actionsList[6]:
-                        updateEmployeeRole();
+                        updateEmployeeRoleQ();
                         break;
                     
                     // Update an employee's manager
                     case actionsList.actionsList[7]:
-                        updateEmployeeMgr();
+                        updateEmployeeMgrQ();
                         break;
                     
                     // View employees by manager
                     case actionsList.actionsList[8]:
                         viewEmployeesByManagerQ();
+                        break;
+
+                    // View utilized budget
+                    case actionsList.actionsList[9]:
+                        viewUtilizedBudgetQ();
                         break;
                 }
             }
@@ -132,6 +137,17 @@ const viewAllRolesQ = async () => {
 const viewEmployeesByManagerQ = async () => {
     try {
         const rows = await query(queries.viewEmployeesByManager);
+        console.table(rows);
+        start();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// View utilized budget by department
+const viewUtilizedBudgetQ = async () => {
+    try {
+        const rows = await query(queries.viewUtilizedBudget);;
         console.table(rows);
         start();
     } catch (err) {
@@ -259,7 +275,7 @@ const addDepartmentQ = async () => {
 }
 
 // Add a role function
-const addRole = async () => {
+const addRoleQ = async () => {
     try {
         const promptUser = () => {
             return inquirer
@@ -318,7 +334,7 @@ const addRole = async () => {
 
 // UPDATE FUNCTIONS
 // Update an employee role
-const updateEmployeeRole = async () => {
+const updateEmployeeRoleQ = async () => {
     try {
         const promptUser = () => {
             return inquirer
@@ -388,7 +404,7 @@ const updateEmployeeRole = async () => {
 }
 
 // Update an employee role
-const updateEmployeeMgr = async () => {
+const updateEmployeeMgrQ = async () => {
     try {
         const promptUser = () => {
             return inquirer
