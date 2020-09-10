@@ -1,7 +1,7 @@
 SELECT
     r.id AS 'Role ID',
     r.title AS 'Role Title',
-    r.salary AS 'Role Salary',
+    concat('$', format(r.salary, 2)) AS 'Role Salary',
     dept.name AS 'Role Department'
 FROM
     role r

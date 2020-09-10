@@ -2,8 +2,8 @@ SELECT
 	emp.id AS 'Manager ID',
 	concat(emp.firstname, " ", emp.lastname) AS 'Manager Name',
 	role.title AS 'Manager Title',
-	dept.name AS artment 'Manager Department',
-	role.salary AS 'Manager Salary',
+	dept.name AS 'Manager Department',
+	concat('$', format(role.salary, 2)) AS 'Manager Salary',
 	concat(manager.firstname, " ", manager.lastname) AS 'Manager'
 	
 FROM
