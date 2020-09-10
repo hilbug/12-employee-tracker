@@ -1,8 +1,8 @@
 SELECT
-    r.id,
-    r.title,
-    r.salary,
-    dept.name department
+    r.id AS 'Role ID',
+    r.title AS 'Role Title',
+    r.salary AS 'Role Salary',
+    dept.name AS 'Role Department'
 FROM
     role r
     LEFT JOIN department dept ON r.department_id = dept.id
