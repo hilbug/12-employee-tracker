@@ -563,7 +563,7 @@ const deleteRoleQ = async () => {
                     connection.query(
                         queries.deleteRole,
                         {
-                            // Goes in WHERE - employee getting deleted
+                            // Goes in WHERE - role getting deleted
                             id: answer.roleID
                         },
                         (err) => {
@@ -584,6 +584,51 @@ const deleteRoleQ = async () => {
 }
 
 // Delete department function
+const deleteDepartmentQ = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "deptID",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            depts.forEach((dept) => {
+                                const deptObj = {
+                                    name: dept.department_name,
+                                    value: dept.id
+                                }
+                                choiceArray.push(deptObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Please select role you would like to DELETE. Note: You may wish to update the affected employees' role first; otherwise, existing employees will be set to a null role.",
+                    }
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.deleteDepartment,
+                        {
+                            // Goes in WHERE - department getting deleted
+                            id: answer.deptID
+                        },
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The department was deleted successfully! Make sure to review and update roles as needed.`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const depts = await getDepartments();
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 // EXIT the program
 const exitProgram = () => {

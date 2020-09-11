@@ -13,7 +13,8 @@ const queries = {
     viewEmployeesByManager: fs.readFileSync(path.join(__dirname, '../sql/viewEmployeesByManager.sql')).toString(),
     viewUtilizedBudget: fs.readFileSync(path.join(__dirname, '../sql/viewUtilizedBudget.sql')).toString(),
     deleteEmployee: fs.readFileSync(path.join(__dirname, '../sql/deleteEmployee.sql')).toString(),
-    deleteRole: fs.readFileSync(path.join(__dirname, '../sql/deleteRole.sql')).toString()
+    deleteRole: fs.readFileSync(path.join(__dirname, '../sql/deleteRole.sql')).toString(),
+    deleteDepartment: fs.readFileSync(path.join(__dirname, '../sql/deleteDepartment.sql')).toString()
 }
 
 
