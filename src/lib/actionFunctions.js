@@ -75,6 +75,11 @@ const start = () => {
                     case actionsList.actionsList[9]:
                         viewUtilizedBudgetQ();
                         break;
+
+                    // Delete employee
+                    case actionsList.actionsList[10]:
+                        deleteEmployeeQ();
+                        break;
                 }
             }
 
@@ -403,7 +408,7 @@ const updateEmployeeRoleQ = async () => {
     }
 }
 
-// Update an employee role
+// Update an employee manager
 const updateEmployeeMgrQ = async () => {
     try {
         const promptUser = () => {
@@ -473,6 +478,58 @@ const updateEmployeeMgrQ = async () => {
     }
 }
 
+// DELETE FUNCTIONS
+// Delete employee function
+const deleteEmployeeQ = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "empID",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            emps.forEach((emp) => {
+                                const empObj = {
+                                    name: `${emp.firstname} ${emp.lastname}`,
+                                    value: emp.id
+                                }
+                                choiceArray.push(empObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Please select an employee you would like to DELETE. Note: You may wish to update this manager's employees first; otherwise, existing employees will be set to a null manager.",
+                    }
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.deleteEmployee,
+                        {
+                            // Goes in WHERE - employee getting deleted
+                            id: answer.empID
+                        },
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The employee was deleted successfully! Make sure to review and update employee managers as needed.`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const emps = await getEmployees();
+        console.log(emps);
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// Delete roles function
+
+// Delete department function
 
 // EXIT the program
 const exitProgram = () => {
