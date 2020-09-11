@@ -2,10 +2,12 @@
 const connection = require('./src/config/config');
 // require file with starter function
 const actions = require("./src/lib/actionFunctions");
+// colors?
+
 
 // Add start to app inside try/catch
 const init = async () => {
-    console.log("Welcome to the Employee Tracker app!\n To get started, select an action from the list below.\n If you do not have the information readily available, you can leave it blank and update later.");
+    console.log('Welcome to the Employee Tracker app!\n To get started, select an action from the list below.\n If you do not have the information readily available, you can leave it blank and update later.');
     try {
         await actions.start();
     } catch (err) {
