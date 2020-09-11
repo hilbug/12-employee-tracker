@@ -12,6 +12,8 @@ const actionsList = [
     'View Employees by Manager',
     'View Utilized Budget',
     'Delete an employee',
+    'Delete a role',
+    'Delete a department',
     'Exit'
 ];
 

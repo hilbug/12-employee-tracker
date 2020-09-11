@@ -80,6 +80,16 @@ const start = () => {
                     case actionsList.actionsList[10]:
                         deleteEmployeeQ();
                         break;
+                    
+                    // Delete role
+                    case actionsList.actionsList[11]:
+                        deleteRoleQ();
+                        break;
+                    
+                    // Delete department
+                    case actionsList.actionsList[12]:
+                        deleteDepartmentQ();
+                        break;
                 }
             }
 
@@ -519,7 +529,6 @@ const deleteEmployeeQ = async () => {
 
         //await functions
         const emps = await getEmployees();
-        console.log(emps);
         await promptUser();
 
     } catch (err) {
@@ -528,6 +537,51 @@ const deleteEmployeeQ = async () => {
 }
 
 // Delete roles function
+const deleteRoleQ = async () => {
+    try {
+        const promptUser = () => {
+            return inquirer
+                .prompt([
+                    {
+                        name: "roleID",
+                        type: "rawlist",
+                        choices: function () {
+                            const choiceArray = [];
+                            roles.forEach((role) => {
+                                const roleObj = {
+                                    name: role.title,
+                                    value: role.id
+                                }
+                                choiceArray.push(roleObj)
+                            })
+                            return choiceArray;
+                        },
+                        message: "Please select role you would like to DELETE. Note: You may wish to update the affected employees' role first; otherwise, existing employees will be set to a null role.",
+                    }
+                ])
+                .then((answer) => {                    
+                    connection.query(
+                        queries.deleteRole,
+                        {
+                            // Goes in WHERE - employee getting deleted
+                            id: answer.roleID
+                        },
+                        (err) => {
+                            if (err) throw err;
+                            console.log(`The role was deleted successfully! Make sure to review and update employee roles as needed.`); 
+                            start();                          
+                        });
+                });
+        }
+
+        //await functions
+        const roles = await getRoles();
+        await promptUser();
+
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 // Delete department function
 
